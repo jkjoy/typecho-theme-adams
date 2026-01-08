@@ -11,20 +11,57 @@
     <?php endif; ?>
     <link href="<?php $this->options->themeUrl('style/style.css'); ?>" type="text/css" rel="stylesheet">
     <link href="<?php $this->options->themeUrl('style/caomei/style.css'); ?>" type="text/css" rel="stylesheet">
+    <link id="adams-color-style" rel="stylesheet" <?php if ($this->options->colorStyle == 'sepia'): ?>href="<?php $this->options->themeUrl('style/sepia.css'); ?>"<?php elseif ($this->options->colorStyle == 'night'): ?>href="<?php $this->options->themeUrl('style/night.css'); ?>"<?php else: ?>href="" disabled<?php endif; ?> data-sepia="<?php $this->options->themeUrl('style/sepia.css'); ?>" data-night="<?php $this->options->themeUrl('style/night.css'); ?>">
 	<script src="<?php $this->options->themeUrl('static/jquery.min.js'); ?>"></script>
 	<script src="<?php $this->options->themeUrl('static/script.js'); ?>"></script>
 	<script src="<?php $this->options->themeUrl('static/support.js'); ?>"></script>
 	<script src="<?php $this->options->themeUrl('static/prettify.js'); ?>"></script>
 	<script src="<?php $this->options->themeUrl('static/instantclick.min.js'); ?>"></script>
+    <?php if ($this->options->pangu): ?>
 	<script src="<?php $this->options->themeUrl('static/pangu.min.js'); ?>"></script>
+    <?php endif; ?>
     <title><?php title($this); ?></title>
     <?php $this->header(); ?>
     <?php if (!empty($this->options->headcode)): ?>
     <?php echo $this->options->headcode; ?>
     <?php endif; ?>
     <script>
-        if(localStorage.adams_color_style) $('head').append("<style class='diy-color-style'>" + localStorage.adams_color_style + "</style>");
-        if(localStorage.adams_font_style) $('head').append("<style class='diy-font-style'>" + localStorage.adams_font_style + "</style>");
+        (function () {
+            var link = document.getElementById('adams-color-style');
+
+            window.__adamsSetColorStyle = function (styleName) {
+                if (!link) return;
+                var href = '';
+                if (styleName === 'sepia') href = link.getAttribute('data-sepia') || '';
+                if (styleName === 'night') href = link.getAttribute('data-night') || '';
+
+                if (href) {
+                    link.href = href;
+                    link.disabled = false;
+                } else {
+                    link.disabled = true;
+                    link.href = '';
+                }
+            };
+
+            var defaultStyle = <?php echo json_encode($this->options->colorStyle ?: 'default', JSON_UNESCAPED_UNICODE); ?>;
+
+            try {
+                if (localStorage.adams_color_style && /[{}]/.test(localStorage.adams_color_style)) {
+                    window.__adamsSetColorStyle('default');
+                    $('head').append("<style class='diy-color-style'>" + localStorage.adams_color_style + "</style>");
+                } else {
+                    var styleName = localStorage.adams_color_style_name || defaultStyle;
+                    window.__adamsSetColorStyle(styleName);
+                }
+
+                if (localStorage.adams_font_style) {
+                    $('head').append("<style class='diy-font-style'>" + localStorage.adams_font_style + "</style>");
+                }
+            } catch (e) {
+                window.__adamsSetColorStyle(defaultStyle);
+            }
+        })();
     </script>
 </head>
 <body>
@@ -96,22 +133,16 @@
         <div class="container">
         <?php if($this->is('single')) { ?>
 	        <h2 class="fixed-title"></h2>
-	        <!--<div class="fixed-menus"></div>-->
 	        <div class="fields">
-	            <span><i class="czs-time-l"></i> <?php $this->date('Y-m-d'); ?></span>
-	                / 
-                <span><i class="czs-eye-l"></i> <?php echo getPostViews($this); ?></span>
-	                <?php if(!$this->is('page')): ?>
-	                / 
-                <span><i class="czs-folder-l"></i> <?php $this->category(','); ?></span>
-	                / 
-                <span><i class="czs-tag-l"></i> <?php $this->tags(',', true, '无标签'); ?></span>
-	                <?php endif; ?>
-		            / 
-                <span><i class="czs-talk-l"></i> <?php $this->commentsNum('无评论', '1 条', '%d 条'); ?></span>
+	            <span><i class="czs-time-l"></i> <?php $this->date('Y-m-d'); ?></span> / 
+                <span><i class="czs-eye-l"></i> <?php echo getPostViews($this); ?></span> / 
+                <span><i class="czs-talk-l"></i> <?php $this->commentsNum('无评论', '1 条', '%d 条'); ?></span> /
+                    <a href="javascript:;" data-action="topTop" data-id="<?php echo $this->cid; ?>" class="dot-good<?php if (isset($_COOKIE['extend_contents_likes_' . $this->cid])) echo ' done'; ?>">
+                        <i class="czs-thumbs-up-l"></i><i class="czs-thumbs-up"></i>
+                        <span class="count"><?php get_post_like($this); ?></span>赞
+                    </a>
 		            <?php if($this->user->hasLogin()) : ?>
-		            <?php $editFile = $this->is('page') ? 'write-page.php' : 'write-post.php'; ?>
-		            / 
+		            <?php $editFile = $this->is('page') ? 'write-page.php' : 'write-post.php'; ?> / 
                 <span><i class="czs-pen"></i><a href="<?php $this->options->adminUrl($editFile . '?cid=' . $this->cid); ?>" target="_blank" title="<?php echo $this->is('page') ? '编辑页面' : '编辑文章'; ?>"><?php echo $this->is('page') ? '编辑页面' : '编辑文章'; ?></a></span> 
 		            <?php endif; ?>
 		    </div>

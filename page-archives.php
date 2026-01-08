@@ -7,7 +7,7 @@
 $this->need('header.php'); ?>
 <section class="section content main-load">
     <div class="container">
-        <article class="post_article archives" itemscope itemtype="https://schema.org/Article">
+        <article class="post_article archives">
             <?php
             $this->widget('Widget_Contents_Post_Recent', 'pageSize=10000')->to($archives);   
             $year=0; $mon=0; $i=0; $j=0;   

@@ -4,7 +4,7 @@
  * 
  * @package Adams
  * @author  vsc.im
- * @version 1.1.0
+ * @version 1.1.1
  * @link    https://blog.vsc.im
  */
 $this->need('header.php');
@@ -32,6 +32,7 @@ $this->need('header.php');
                         <span class="time"><time datetime="<?php $this->date('c'); ?>" itemprop="datePublished" pubdate><?php $this->date('Y-m-d'); ?></time>发布</span>
                         <span class="hr"></span>
                         <span class="comments"><a href="<?php $this->permalink() ?>#comments"><?php $this->commentsNum('去评论', '1 条评论', '%d 条评论'); ?></a></span>
+                        <span class="hr"></span><span class="likes"><?php get_post_like($this); ?> 人喜欢</span>
                     </footer>
                 </article>
                 <?php endwhile; else: ?>

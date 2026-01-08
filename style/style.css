@@ -56,12 +56,49 @@ li.L0,li.L1,li.L2,li.L3,li.L4,li.L5,li.L6,li.L7,li.L8,li.L9{padding-left:1rem;ba
     background:#1e1e1e;
     border-radius:12px;
     box-shadow:0 10px 30px rgba(0,0,0,.15);
-    overflow:auto;
+    overflow:hidden;
+    padding:0;
+}
+.post_article pre.code-mac .code-mac-scroll,
+.comment-body pre.code-mac .code-mac-scroll{
+    overflow:hidden;
     max-height:18rem;
-    padding:2.75rem 1.25rem 1.25rem;
-    white-space:pre;
-    word-wrap:normal;
+    padding:3.5rem 1.25rem 1.25rem;
+    white-space:pre-wrap;
+    overflow-wrap:anywhere;
+    word-break:break-word;
     -webkit-overflow-scrolling:touch;
+}
+.post_article pre.code-mac.is-expanded .code-mac-scroll,
+.comment-body pre.code-mac.is-expanded .code-mac-scroll{
+    max-height:none;
+}
+
+.post_article pre.code-mac .code-expand-btn,
+.comment-body pre.code-mac .code-expand-btn{
+    display:none;
+    width:100%;
+    border:0;
+    border-top:1px solid rgba(255,255,255,.08);
+    background:rgba(255,255,255,.06);
+    color:rgba(255,255,255,.78);
+    padding:.6rem 1rem;
+    line-height:1.2rem;
+    font-size:.78rem;
+    cursor:pointer;
+}
+.post_article pre.code-mac .code-expand-btn:hover,
+.comment-body pre.code-mac .code-expand-btn:hover{
+    background:rgba(255,255,255,.10);
+    color:#fff;
+}
+.post_article pre.code-mac.is-collapsed .code-expand-btn,
+.comment-body pre.code-mac.is-collapsed .code-expand-btn{
+    display:block;
+}
+.post_article pre.code-mac.is-expanded .code-expand-btn,
+.comment-body pre.code-mac.is-expanded .code-expand-btn{
+    display:block;
 }
 .post_article pre.code-mac:before,
 .comment-body pre.code-mac:before{
@@ -293,7 +330,7 @@ box-shadow:0 0 0 1px rgba(0, 0, 0, 0.2),
 .post_article embed {max-width:100%;margin:10px auto;display:block;}
 .post_article a {text-decoration: underline;}
 .post_article p {margin:4% 0;line-height:2.4rem;}
-.post_article p a,.post_article p a span{padding:0;color:#3274ff;}a
+.post_article p a,.post_article p a span{padding:0;color:#3274ff;}
 .post_article h1,.post_article h2,.post_article h3,.post_article h4,#comments{margin:2rem 0;font-weight:bold;position:relative;}
 .post_article h1 {font-size:1.8rem;line-height:1.8rem;}
 .post_article h2 {font-size:1.6rem;line-height:1.6rem;}
@@ -337,7 +374,6 @@ box-shadow:0 0 0 1px rgba(0, 0, 0, 0.2),
 .comment.depth-1{margin:1% 0 1% 0;padding:0 0 1%;}
 .comment.depth-1 .depth-1{padding:0;border:0;}
 .comment .comment{margin-left:30px;border-left:1px solid #E6E9ED;}
-.comment .comment .comment {margin:0;padding:0;border:0;}
 .comment-body {padding:15px 0;position:relative;}
 .comment .comment .comment-body,.comment .comment .comment > .comment-body.new-comment {margin: 0 0 0 -16px;}
 .comment-body p {font-size:.8rem;clear:both;line-height:22px;margin:0 0 0 55px;}
@@ -546,3 +582,4 @@ animation-fill-mode: forwards;
       padding: 8px 12px!important;
   }
 }
+.post_meta{margin-top: 3rem;}

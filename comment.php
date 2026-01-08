@@ -12,7 +12,7 @@
     $commentLevelClass = $comments->levels > 0 ? ' comment-child' : ' comment-parent';
 ?>
 
-<li id="<?php $comments->theId(); ?>" class="comment comment-body<?php 
+<li id="<?php $comments->theId(); ?>" class="comment<?php 
 if ($comments->levels > 0) {
     echo ' comment-child';
     $comments->levelsAlt(' comment-level-odd', ' comment-level-even');
@@ -30,7 +30,23 @@ echo $commentClass;
     <div class="comment-meta commentmetadata">
 		<a href="<?php $comments->permalink(); ?>"><?php $comments->date('Y-m-d H:i'); ?></a>
 	</div>
-	<p><?php $comments->content(); ?></p>
+	<?php
+	ob_start();
+	$comments->content();
+	$commentHtml = trim(ob_get_clean());
+
+	$at = $comments->parent ? (getPermalinkFromCoid($comments->parent) . ' ') : '';
+	$commentHtmlLtrim = ltrim($commentHtml);
+
+	if ($commentHtmlLtrim !== '' && preg_match('/^<p\\b/i', $commentHtmlLtrim)) {
+		if ($at !== '') {
+			$commentHtmlLtrim = preg_replace('/^<p\\b([^>]*)>/', '<p$1>' . $at, $commentHtmlLtrim, 1);
+		}
+		echo $commentHtmlLtrim;
+	} else {
+		echo '<p>' . $at . $commentHtml . '</p>';
+	}
+	?>
 
 	<div class="reply"><?php $comments->reply('回复'); ?></div>
 </div>

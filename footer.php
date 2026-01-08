@@ -65,14 +65,45 @@
 	                var applyMacCode = function (withButton) {
 	                    $('.post_article pre, .comment-body pre').each(function () {
 	                        var $pre = $(this);
-
+ 
 	                        if (!$pre.hasClass('code-mac') && ($pre.hasClass('prettyprint') || $pre.find('code').length)) {
 	                            $pre.addClass('code-mac');
 	                        }
 
+	                        if ($pre.hasClass('code-mac') && $pre.find('> .code-mac-scroll').length === 0) {
+	                            var $scroll = $('<div class="code-mac-scroll"></div>');
+	                            $pre.prepend($scroll);
+	                            $scroll.append($pre.contents().not($scroll).not($pre.find('> .code-copy-btn')));
+	                        }
+ 
 	                        if (withButton && $pre.hasClass('code-mac') && $pre.find('> .code-copy-btn').length === 0) {
 	                            $pre.prepend('<button type="button" class="code-copy-btn" aria-label="复制代码">复制代码</button>');
 	                        }
+
+	                        if ($pre.hasClass('code-mac') && $pre.find('> .code-expand-btn').length === 0) {
+	                            $pre.append('<button type="button" class="code-expand-btn" aria-expanded="false">展开</button>');
+	                        }
+	                    });
+	                };
+
+	                var updateMacCodeExpand = function () {
+	                    $('.post_article pre.code-mac, .comment-body pre.code-mac').each(function () {
+	                        var $pre = $(this);
+	                        var $scroll = $pre.find('> .code-mac-scroll');
+	                        var $btn = $pre.find('> .code-expand-btn');
+
+	                        if ($scroll.length === 0 || $btn.length === 0) return;
+
+	                        if ($pre.hasClass('is-expanded')) {
+	                            $btn.text('收起').attr('aria-expanded', 'true');
+	                            $pre.removeClass('is-collapsed');
+	                            return;
+	                        }
+
+	                        // collapsed state: only show button when content overflows
+	                        var overflow = $scroll[0].scrollHeight - $scroll[0].clientHeight > 1;
+	                        $btn.text('展开').attr('aria-expanded', 'false');
+	                        $pre.toggleClass('is-collapsed', overflow);
 	                    });
 	                };
 	                applyMacCode(false);
@@ -86,6 +117,7 @@
 	                });
 	                if (typeof prettyPrint !== 'undefined') prettyPrint();
 	                applyMacCode(true);
+	                updateMacCodeExpand();
 	                
 	                $('ul.links li a').each(function(){
 	                    if($(this).parent().find('.bg').length==0){
@@ -104,7 +136,7 @@
 	            if (!pre) return;
 
 	            var clone = pre.cloneNode(true);
-	            clone.querySelectorAll('.code-copy-btn').forEach(function (el) { el.remove(); });
+	            clone.querySelectorAll('.code-copy-btn,.code-expand-btn').forEach(function (el) { el.remove(); });
 	            var text = (clone.textContent || '').replace(/\s+$/, '');
 
 	            var setText = function (t) { btn.textContent = t; };
@@ -133,6 +165,26 @@
 	            } catch (e) {
 	                setText('复制失败');
 	                reset();
+	            }
+	        });
+	    }
+
+	    if (!window.__adamsCodeExpandBound) {
+	        window.__adamsCodeExpandBound = true;
+	        jQuery(document).on('click', '.code-expand-btn', function () {
+	            var $pre = jQuery(this).closest('pre.code-mac');
+	            if ($pre.length === 0) return;
+
+	            $pre.toggleClass('is-expanded');
+	            if ($pre.hasClass('is-expanded')) {
+	                jQuery(this).text('收起').attr('aria-expanded', 'true');
+	                $pre.removeClass('is-collapsed');
+	            } else {
+	                jQuery(this).text('展开').attr('aria-expanded', 'false');
+	                // re-evaluate overflow after collapsing
+	                var $scroll = $pre.find('> .code-mac-scroll');
+	                var overflow = $scroll.length ? ($scroll[0].scrollHeight - $scroll[0].clientHeight > 1) : false;
+	                $pre.toggleClass('is-collapsed', overflow);
 	            }
 	        });
 	    }
