@@ -3,9 +3,9 @@
  * Theme Adams | 一款移植自 Wordpress 的简洁主题
  * 
  * @package Adams
- * @author  Eltrac
- * @version 1.0.0
- * @link    https://guhub.cn
+ * @author  vsc.im
+ * @version 1.1.0
+ * @link    https://blog.vsc.im
  */
 $this->need('header.php');
 ?>
@@ -15,22 +15,23 @@ $this->need('header.php');
             <div class="post-list">
                 <?php if ($this->have()): ?>
 				<?php while($this->next()): ?>
-                <article class="meta" itemscope="" itemtype="http://schema.org/BlogPosting">
+                <article class="meta">
                     <header>
                         <a href="<?php $this->permalink(); ?>" itemprop="url"><h2 itemprop="name headline"><?php $this->title(); ?></h2></a>
-                    </header>
-                    <main>
-                        <?php if($this->fields->banner && $this->fields->banner!=''){ ?>
-                            <a href="<?php $this->permalink(); ?>" class="thumb" style="background-image: url('<?php $this->fields->banner(); ?>');"></a>
-                        <?php };?>
-                        <p itemprop="articleBody">
-                            <?php $this->excerpt(200); ?>
-                        </p>
-                    </main>
+	                    </header>
+	                    <main>
+	                        <?php $thumb = getPostImg($this); ?>
+	                        <?php if (!empty($thumb) && $thumb !== 'none'): ?>
+	                        <a href="<?php $this->permalink(); ?>" class="thumb" style="background-image: url('<?php echo $thumb; ?>');"></a>
+	                        <?php endif; ?>
+	                        <p itemprop="articleBody">
+	                            <?php $this->excerpt(200); ?>
+	                        </p>
+	                    </main>
                     <footer>
                         <span class="time"><time datetime="<?php $this->date('c'); ?>" itemprop="datePublished" pubdate><?php $this->date('Y-m-d'); ?></time>发布</span>
                         <span class="hr"></span>
-                        <span class="comments"><?php $this->commentsNum('评论', '1 条评论', '%d 条评论'); ?></span>
+                        <span class="comments"><a href="<?php $this->permalink() ?>#comments"><?php $this->commentsNum('去评论', '1 条评论', '%d 条评论'); ?></a></span>
                     </footer>
                 </article>
                 <?php endwhile; else: ?>

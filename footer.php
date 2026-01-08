@@ -1,15 +1,33 @@
 <?php if (!defined('__TYPECHO_ROOT_DIR__')) exit; ?>
 <footer class="footer">
 	<section class="container">
-        <span id="hitokoto">少女祈祷中......</span>
-        <p>
-            <span class='left'>&copy; <?php echo date('Y'); ?>
-                <a href="<?php echo $this->options->SiteUrl(); ?>"><?php echo $this->options->title(); ?></a>
+        <ul id="menu-footer" class="menu">
+        <?php
+        try {
+            // 检查links表是否存在
+            $db = Typecho_Db::get();
+            $db->fetchAll($db->select()->from('table.links')->limit(1));
+            // 如果没有异常，表存在，输出友情链接
+            Links_Plugin::output('<li><a href="{url}" target="_blank" rel="me noopener" title="{title}">{name}</a></li>');
+        } catch (Exception $e) {
+            // 表不存在或查询失败，显示提示信息
+            echo '<span style="color: #999;">请先安装links插件</span>';
+        }
+        ?>
+        </ul>        
+        <div style="display: flex;justify-content: space-between;">
+            <span class='left'>&copy; <?php echo date('Y'); ?>  
+            <?php echo $this->options->title(); ?> 
+            <?php if (!empty($this->options->icp)): ?> | 
+                <a href="https://beian.miit.gov.cn/" target="_blank"><?php echo $this->options->icp; ?></a>
+            <?php endif; ?>          
+            </span>
             <span class='right'>Theme by <a href="https://biji.io" target="_blank">Adams</a></span>
-        </p>
 	</section>
 </footer>
-
+<?php if (!empty($this->options->footcode)): ?>
+    <?php echo $this->options->footcode; ?>
+<?php endif; ?>
 <script src="https://v1.hitokoto.cn/?encode=js&select=%23hitokoto" defer></script> 
 <?php $this->footer(); ?>
 <div class="setting_tool iconfont">
@@ -36,31 +54,88 @@
     document.addEventListener('DOMContentLoaded', () => {
         pangu.autoSpacingPage();
     });
-    (function ($) {
-        $.extend({
-            adamsOverload: function () {
-                $('.navigation:eq(0)').remove();
-                $(".post_article a").attr("rel" , "external");
-                $("a[rel='external']:not([href^='#']),a[rel='external nofollow']:not([href^='#'])").attr("target","_blank");
-                $("a.vi,.gallery a,.attachment a").attr("rel" , "");
-                $.viewImage({
-                    'target'  : '.gallery a,.gallery img,.attachment a,.post_article img,.post_article a,a.vi',
-                    'exclude' : '.readerswall img,.gallery a img,.attachment a img',
-                    'delay'   : 300
-                });
-                $.lately({
-                    'target' : '.commentmetadata a,.infos time,.post-list time'
-                });
-                prettyPrint();
-                
-                $('ul.links li a').each(function(){
-                    if($(this).parent().find('.bg').length==0){
-                        $(this).parent().append('<div class="bg" style="background-image:url(https://www.google.com/s2/favicons?domain='+$(this).attr("href")+')"></div>')
-                    }
-                });
-            }
-        });
-    })(jQuery);
+	    (function ($) {
+	        $.extend({
+	            adamsOverload: function () {
+	                $('.navigation:eq(0)').remove();
+	                $(".post_article a").attr("rel" , "external");
+	                $("a[rel='external']:not([href^='#']),a[rel='external nofollow']:not([href^='#'])").attr("target","_blank");
+	                $("a.vi,.gallery a,.attachment a").attr("rel" , "");
+
+	                var applyMacCode = function (withButton) {
+	                    $('.post_article pre, .comment-body pre').each(function () {
+	                        var $pre = $(this);
+
+	                        if (!$pre.hasClass('code-mac') && ($pre.hasClass('prettyprint') || $pre.find('code').length)) {
+	                            $pre.addClass('code-mac');
+	                        }
+
+	                        if (withButton && $pre.hasClass('code-mac') && $pre.find('> .code-copy-btn').length === 0) {
+	                            $pre.prepend('<button type="button" class="code-copy-btn" aria-label="复制代码">复制代码</button>');
+	                        }
+	                    });
+	                };
+	                applyMacCode(false);
+	                $.viewImage({
+	                    'target'  : '.gallery a,.gallery img,.attachment a,.post_article img,.post_article a,a.vi',
+	                    'exclude' : '.readerswall img,.gallery a img,.attachment a img',
+	                    'delay'   : 300
+	                });
+	                $.lately({
+	                    'target' : '.commentmetadata a,.infos time,.post-list time'
+	                });
+	                if (typeof prettyPrint !== 'undefined') prettyPrint();
+	                applyMacCode(true);
+	                
+	                $('ul.links li a').each(function(){
+	                    if($(this).parent().find('.bg').length==0){
+	                        $(this).parent().append('<div class="bg" style="background-image:url(https://www.google.com/s2/favicons?domain='+$(this).attr("href")+')"></div>')
+	                    }
+	                });
+	            }
+	        });
+	    })(jQuery);
+
+	    if (!window.__adamsCodeCopyBound) {
+	        window.__adamsCodeCopyBound = true;
+	        jQuery(document).on('click', '.code-copy-btn', async function () {
+	            var btn = this;
+	            var pre = btn.closest('pre');
+	            if (!pre) return;
+
+	            var clone = pre.cloneNode(true);
+	            clone.querySelectorAll('.code-copy-btn').forEach(function (el) { el.remove(); });
+	            var text = (clone.textContent || '').replace(/\s+$/, '');
+
+	            var setText = function (t) { btn.textContent = t; };
+	            var reset = function () {
+	                clearTimeout(btn.__copyTimer);
+	                btn.__copyTimer = setTimeout(function () { setText('复制代码'); }, 1200);
+	            };
+
+	            try {
+	                if (navigator.clipboard && window.isSecureContext) {
+	                    await navigator.clipboard.writeText(text);
+	                } else {
+	                    var ta = document.createElement('textarea');
+	                    ta.value = text;
+	                    ta.setAttribute('readonly', '');
+	                    ta.style.position = 'fixed';
+	                    ta.style.left = '-9999px';
+	                    ta.style.top = '0';
+	                    document.body.appendChild(ta);
+	                    ta.select();
+	                    document.execCommand('copy');
+	                    document.body.removeChild(ta);
+	                }
+	                setText('已复制');
+	                reset();
+	            } catch (e) {
+	                setText('复制失败');
+	                reset();
+	            }
+	        });
+	    }
     InstantClick.on('change', function(isInitialLoad) {
         jQuery.adamsOverload();
         if (isInitialLoad === false) {
@@ -85,7 +160,6 @@
     });
     InstantClick.init('mousedown');
     jQuery.adamsOverload();
-
 </script>
 </body>
 </html>

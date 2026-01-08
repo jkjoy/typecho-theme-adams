@@ -1,6 +1,7 @@
+<?php if (!defined('__TYPECHO_ROOT_DIR__')) exit; ?>
     <!-- Content -->
     <section class="container main-load">
-        <article class="post_article" itemscope itemtype="https://schema.org/Article">
+        <article class="post_article">
         <?php $this->content(); ?>
         </article>
         

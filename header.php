@@ -4,19 +4,24 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <?php $favicon = $this->options->favicon; if (!empty($favicon)): ?>
+    <link rel="icon" href="<?php $this->options->favicon(); ?>" type="image/x-icon"/>
+    <?php else: ?>
+    <link rel="icon" href="<?php $this->options->themeUrl('favicon.ico'); ?>" type="image/x-icon"/>
+    <?php endif; ?>
     <link href="<?php $this->options->themeUrl('style/style.css'); ?>" type="text/css" rel="stylesheet">
-    <link href="<?php $this->options->themeUrl('static/caomei1.2.8/style.css'); ?>" type="text/css" rel="stylesheet">
-	<link href="<?php $this->options->themeUrl('style/wpBlockLib.css'); ?>" type="text/css" rel="stylesheet">
-	<link href="https://fonts.googleapis.com/css?family=Noto+Sans+SC:300|Noto+Serif+SC:300&display=swap" rel="stylesheet">
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
-	<script type='text/javascript' src="<?php $this->options->themeUrl('static/script.js'); ?>"></script>
-	<script type='text/javascript' src="<?php $this->options->themeUrl('static/support.js'); ?>"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/prettify/r298/prettify.js" integrity="sha256-9I2FxupwHkF6hXzZKS3hLCwP95XFukX3EnxRzGqXzz0=" crossorigin="anonymous"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/instantclick/3.1.0/instantclick.min.js" integrity="sha256-T8RTGotskdhLXy/3avHtzYliRm9WCbiiqm5dbCVH87s=" crossorigin="anonymous"></script>
-	<script src="https://cdn.jsdelivr.net/npm/pangu@4.0.7/dist/browser/pangu.min.js"></script>
+    <link href="<?php $this->options->themeUrl('style/caomei/style.css'); ?>" type="text/css" rel="stylesheet">
+	<script src="<?php $this->options->themeUrl('static/jquery.min.js'); ?>"></script>
+	<script src="<?php $this->options->themeUrl('static/script.js'); ?>"></script>
+	<script src="<?php $this->options->themeUrl('static/support.js'); ?>"></script>
+	<script src="<?php $this->options->themeUrl('static/prettify.js'); ?>"></script>
+	<script src="<?php $this->options->themeUrl('static/instantclick.min.js'); ?>"></script>
+	<script src="<?php $this->options->themeUrl('static/pangu.min.js'); ?>"></script>
     <title><?php title($this); ?></title>
     <?php $this->header(); ?>
-
+    <?php if (!empty($this->options->headcode)): ?>
+    <?php echo $this->options->headcode; ?>
+    <?php endif; ?>
     <script>
         if(localStorage.adams_color_style) $('head').append("<style class='diy-color-style'>" + localStorage.adams_color_style + "</style>");
         if(localStorage.adams_font_style) $('head').append("<style class='diy-font-style'>" + localStorage.adams_font_style + "</style>");
@@ -26,7 +31,7 @@
 <!-- Header -->
 <header class="header">
     <section class="container">
-        <hgroup itemscope itemtype="https://schema.org/WPHeader">
+        <hgroup>
             <h1 class="fullname">
 			  <?php
 			    if($this->is('single')){
@@ -46,33 +51,43 @@
         </hgroup>
 		<nav class="social">
 		  <ul id="menu-socialx" class="menu">
-		    		    <li class="czs-rss menu-item menu-item-type-custom menu-item-object-custom">
+		    <li class="czs-rss menu-item">
 				<a title="RSS" target="_blank" href="<?php $this->options->feedUrl(); ?>">RSS</a>
 			</li>
 			<?php if ($this->options->github): ?>
-            <li class="czs-github-logo menu-item menu-item-type-custom menu-item-object-custom">
+            <li class="czs-github-logo menu-item">
 				<a title="GitHub" target="_blank" href="<?php $this->options->github(); ?>">GitHub</a>
 			</li>
 			<?php endif;?>
 			<?php if ($this->options->weibo): ?>
-            <li class="czs-weibo menu-item menu-item-type-custom menu-item-object-custom">
+            <li class="czs-weibo menu-item">
 				<a target="_blank" href="<?php $this->options->weibo(); ?>">WeiBo</a>
 			</li>
 			<?php endif;?>
+            <?php if ($this->options->mastodon): ?>
+            <li class="czs-moments menu-item">
+				<a title="Mastodon" target="_blank" href="<?php $this->options->mastodon(); ?>">Mastodon</a>
+			</li>
+            <?php endif;?>
+            <?php if ($this->options->telegram): ?>
+            <li class="czs-telegram menu-item">
+                <a title="Telegram" target="_blank" href="<?php $this->options->telegram(); ?>">Telegram</a>
+            </li>
+            <?php endif;?>
           </ul>
 		</nav>
         <nav class="header_nav">
 		  <ul id="menu-header" class="menu">
-		    <li class="menu-item menu-item-type-custom menu-item-object-custom <?php if($this->is('index')): ?>current-menu-item current_page_item <?php endif; ?>menu-item-4759"><a href="<?php $this->options->SiteUrl(); ?>" aria-current="page">首页</a></li>
+		    <li class="menu-item <?php if($this->is('index')): ?>current-menu-item current_page_item <?php endif; ?>menu-item-4759"><a href="<?php $this->options->SiteUrl(); ?>" aria-current="page">首页</a></li>
 			<?php $this->widget('Widget_Metas_Category_List')->to($categorys); ?>
 			<?php while($categorys->next()): ?>
-			<li class="menu-item menu-item-type-custom menu-item-object-custom<?php if($this->is('category', $categorys->slug)): ?> current-menu-item<?php endif; ?>">
+			<li class="menu-item <?php if($this->is('category', $categorys->slug)): ?> current-menu-item<?php endif; ?>">
 			  <a href="<?php $categorys->permalink(); ?>"><?php $categorys->name(); ?></a>
 			</li>
 			<?php endwhile; ?>
             <?php $this->widget('Widget_Contents_Page_List')->to($pages); ?>
             <?php while($pages->next()): ?>
-            <li class="menu-item menu-item-type-custom menu-item-object-custom"><a href="<?php $pages->permalink(); ?>" title="<?php $pages->title(); ?>"><?php $pages->title(); ?></a></li>
+            <li class="menu-item"><a href="<?php $pages->permalink(); ?>" title="<?php $pages->title(); ?>"><?php $pages->title(); ?></a></li>
             <?php endwhile; ?>
           </ul>
 		</nav>    
@@ -80,12 +95,26 @@
 	<section class="infos">
         <div class="container">
         <?php if($this->is('single')) { ?>
-            <h2 class="fixed-title"></h2>
-            <!--<div class="fixed-menus"></div>-->
-            <div class="fields">
-                <span><i class="czs-time-l"></i> <?php $this->date('Y-m-d'); ?></span> / 
+	        <h2 class="fixed-title"></h2>
+	        <!--<div class="fixed-menus"></div>-->
+	        <div class="fields">
+	            <span><i class="czs-time-l"></i> <?php $this->date('Y-m-d'); ?></span>
+	                / 
+                <span><i class="czs-eye-l"></i> <?php echo getPostViews($this); ?></span>
+	                <?php if(!$this->is('page')): ?>
+	                / 
+                <span><i class="czs-folder-l"></i> <?php $this->category(','); ?></span>
+	                / 
+                <span><i class="czs-tag-l"></i> <?php $this->tags(',', true, '无标签'); ?></span>
+	                <?php endif; ?>
+		            / 
                 <span><i class="czs-talk-l"></i> <?php $this->commentsNum('无评论', '1 条', '%d 条'); ?></span>
-            </div>
+		            <?php if($this->user->hasLogin()) : ?>
+		            <?php $editFile = $this->is('page') ? 'write-page.php' : 'write-post.php'; ?>
+		            / 
+                <span><i class="czs-pen"></i><a href="<?php $this->options->adminUrl($editFile . '?cid=' . $this->cid); ?>" target="_blank" title="<?php echo $this->is('page') ? '编辑页面' : '编辑文章'; ?>"><?php echo $this->is('page') ? '编辑页面' : '编辑文章'; ?></a></span> 
+		            <?php endif; ?>
+		    </div>
             
             <div class="socials">
                 <div class="donate">
@@ -102,11 +131,15 @@
                 </div>
             </div>
         <?php } else {?>
-            <h2 class="fixed-title"></h2>
-            <div class="fixed-menus"></div>
-            <div class="placard">
-                <?php $this->options->description(); ?>
-            </div>
+	            <h2 class="fixed-title"></h2>
+	            <div class="fixed-menus"></div>
+	            <div class="placard">
+	                <?php if (!empty($this->options->notice)): ?>
+	                <?php $this->options->notice(); ?>
+	                <?php else: ?>
+	                <span id="hitokoto">少女祈祷中......</span>
+	                <?php endif; ?>
+	            </div>
         <?php } ?>
         </div>
     </section>
