@@ -19,18 +19,33 @@ body,
 .header h1,.current-menu-item a,.current_page_item a,.current-menu-parent a,.current-post-parent a,.social *{color:#bdcadb}
 .infos:before,.infos:after{background:#393f56}
 
-.post-list .reade_more .page-numbers,
-.post-list .reade_more .page-numbers:hover,
-.post-list .reade_more span.page-numbers{background:#393f56;box-shadow:none;color:#bdcadb}
-.post-list .reade_more .page-numbers:hover,
-.post-list .reade_more span.page-numbers{background:#666e8e}
+.reade_more > a,
+.reade_more > span,
+.reade_more .page-numbers,
+.reade_more .page-navigator a,
+.reade_more .page-navigator span{background:#393f56;box-shadow:none;color:#bdcadb}
+
+.reade_more > a:hover,
+.reade_more a.page-numbers:hover,
+.reade_more .page-navigator a:hover{box-shadow:0 0 0 1px #666e8e inset,0 10px 18px rgba(0,0,0,.25)}
+
+.reade_more > span.current,
+.reade_more .page-numbers.current,
+.reade_more span.page-numbers.current,
+.reade_more .page-navigator li.current a,
+.reade_more .page-navigator li.current span{background:#666e8e;color:#1c1f2b;box-shadow:none}
+
+.reade_more > span.dots,
+.reade_more .page-numbers.dots,
+.reade_more span.page-numbers.dots,
+.reade_more .page-navigator li.dots a,
+.reade_more .page-navigator li.dots span{color:#666e8e}
 
 .infos.fixed{box-shadow:0 2px 3px rgba(0,0,0,0.2)}
 .alink{border-top:1px solid #393f56}
 
 .post-list .meta header h2:hover{color:#fff}
-.post-list .reade_more a,.post-list .reade_more a:hover{background:#666e8e;color:#1c1f2b}
-.post-list .reade_more a:hover{color:#fff}
+
 
 .comment .comment{border-left:1px solid #393f56}
 .post-list .meta footer span,.comment-meta a,.comment-author span,.infos,.infos a{color:#666e8e}
@@ -57,3 +72,8 @@ body,
 .setting_tool.colors div.c,
 .setting_tool.search div.s input,
 .setting_tool.search div.s input::placeholder{background:#393f56;color:#bdcadb;}
+
+.related-posts .related_link{background:rgba(255,255,255,.04);box-shadow:0 0 0 1px #393f56 inset;}
+.related-posts .related_date{color:#666e8e;}
+.related-posts .related_name{color:#bdcadb;}
+.related-posts .related_link:hover{background:rgba(255,255,255,.06);box-shadow:0 0 0 1px #666e8e inset,0 10px 18px rgba(0,0,0,.25);}

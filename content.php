@@ -14,19 +14,20 @@
             <div class="alignleft"><?php $this->thePrev('%s','没有了'); ?></div>
             <div class="alignright"><?php $this->theNext('%s','没有了'); ?></div>
         </nav>
-            <?php $this->related(6)->to($relatedPosts); ?> 
-    <?php if ($relatedPosts->have()): ?> 
-    <h3 class="title">相关文章</h3>
-    <div class="related">
-    <?php while ($relatedPosts->next()): ?>     
-        <div class="related_item">
-            <a href="<?php $relatedPosts->permalink(); ?>">
-                <div class="related_title">
-                <?php $relatedPosts->date('Y-m-d'); ?> - <?php $relatedPosts->title(); ?>
+        <?php $this->related(6)->to($relatedPosts); ?>
+        <?php if ($relatedPosts->have()): ?>
+        <section class="related-posts" aria-label="相关文章">
+            <h3 class="related-posts-title">相关文章</h3>
+            <div class="related">
+            <?php while ($relatedPosts->next()): ?>
+                <div class="related_item">
+                    <a class="related_link" href="<?php $relatedPosts->permalink(); ?>">
+                        <span class="related_date"><?php $relatedPosts->date('Y-m-d'); ?></span>
+                        <span class="related_name"><?php $relatedPosts->title(); ?></span>
+                    </a>
                 </div>
-            </a>
-        </div>
-        <?php endwhile; ?>
-    </div>
-    <?php endif; ?>
+            <?php endwhile; ?>
+            </div>
+        </section>
+        <?php endif; ?>
     </section>

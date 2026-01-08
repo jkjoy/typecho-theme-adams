@@ -4,7 +4,7 @@
  * 
  * @package Adams
  * @author  vsc.im
- * @version 1.1.1
+ * @version 1.1.2
  * @link    https://blog.vsc.im
  */
 $this->need('header.php');
@@ -41,9 +41,19 @@ $this->need('header.php');
                     <p>这个页面没有你要找的内容。</p>
                 </article>
             <?php endif; ?>
-                <nav class="reade_more">
-                    <?php $this->pageNav('«', '»'); ?>
-                </nav>
+            <?php
+                $this->pageNav(
+                '«','»', 1,'...',
+                array(
+                    'wrapTag' => 'nav',
+                    'wrapClass' => 'reade_more',
+                    'itemTag' => '',
+                    'textTag' => 'span',
+                    'itemClass'   => '', 
+                    'currentClass' => 'page-numbers current',
+                    'prevClass' => 'page-numbers',
+                    'nextClass' => ''
+                ));?>
             </div>
         </div>
     </section>

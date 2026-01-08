@@ -115,7 +115,7 @@
 		</nav>
         <nav class="header_nav">
 		  <ul id="menu-header" class="menu">
-		    <li class="menu-item <?php if($this->is('index')): ?>current-menu-item current_page_item <?php endif; ?>menu-item-4759"><a href="<?php $this->options->SiteUrl(); ?>" aria-current="page">首页</a></li>
+		    <li class="menu-item <?php if($this->is('index')): ?>current-menu-item current_page_item <?php endif; ?>"><a href="<?php $this->options->SiteUrl(); ?>" aria-current="page">首页</a></li>
 			<?php $this->widget('Widget_Metas_Category_List')->to($categorys); ?>
 			<?php while($categorys->next()): ?>
 			<li class="menu-item <?php if($this->is('category', $categorys->slug)): ?> current-menu-item<?php endif; ?>">
