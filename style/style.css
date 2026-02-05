@@ -320,6 +320,7 @@ box-shadow:0 0 0 1px rgba(0, 0, 0, 0.2),
 .post-list .meta footer span.hr{display:inline-block;width:2px;height:2px;background:#AAB2BD;margin:4px 1rem;}
 
 .reade_more{display:flex;justify-content:center;align-items:center;flex-wrap:wrap;gap:.5rem;margin:3rem 0 4rem}
+.reade_more--placeholder{min-height:2.25rem;}
 .reade_more > a,
 .reade_more > span,
 .reade_more .page-numbers,
@@ -612,6 +613,7 @@ animation-fill-mode: forwards;
   .post-list .meta main .thumb{width:120px;height:100px;}
   .post-list .meta main .thumb:after,.infos.fixed .fields,.infos.fixed .fixed-menus,.header .social{display:none;}
   .reade_more{gap:.4rem;margin:2.2rem 0 3rem}
+  .reade_more--placeholder{min-height:2rem;}
   .reade_more > a,
   .reade_more > span,
   .reade_more .page-numbers,

@@ -4,7 +4,7 @@
  * 
  * @package Adams
  * @author  vsc.im
- * @version 1.1.2
+ * @version 1.1.3
  * @link    https://blog.vsc.im
  */
 $this->need('header.php');
@@ -42,6 +42,7 @@ $this->need('header.php');
                 </article>
             <?php endif; ?>
             <?php
+                ob_start();
                 $this->pageNav(
                 '«','»', 1,'...',
                 array(
@@ -53,7 +54,14 @@ $this->need('header.php');
                     'currentClass' => 'page-numbers current',
                     'prevClass' => 'page-numbers',
                     'nextClass' => ''
-                ));?>
+                ));
+                $pageNav = trim(ob_get_clean());
+                if ($pageNav !== '') {
+                    echo $pageNav;
+                } else {
+                    echo '<div class="reade_more reade_more--placeholder" aria-hidden="true"></div>';
+                }
+            ?>
             </div>
         </div>
     </section>
