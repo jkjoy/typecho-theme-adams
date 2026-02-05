@@ -8,12 +8,12 @@
         <p class="post_meta">
             <span><i class="czs-folder-l"></i> <?php $this->category(','); ?></span> / 
             <span><i class="czs-tag-l"></i> <?php $this->tags(',', true, '无标签'); ?></span>
-        </p>
-	    <?php endif; ?>       
+        </p> 
         <nav class="nearbypost">
             <div class="alignleft"><?php $this->thePrev('%s','没有了'); ?></div>
             <div class="alignright"><?php $this->theNext('%s','没有了'); ?></div>
         </nav>
+        <?php endif; ?>  
         <?php $this->related(6)->to($relatedPosts); ?>
         <?php if ($relatedPosts->have()): ?>
         <section class="related-posts" aria-label="相关文章">
