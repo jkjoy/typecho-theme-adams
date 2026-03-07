@@ -68,7 +68,9 @@
 <?php if (!empty($this->options->footcode)): ?>
     <?php echo $this->options->footcode; ?>
 <?php endif; ?>
-<script src="https://v1.hitokoto.cn/?encode=js&select=%23hitokoto" defer></script> 
+<?php if (!$this->is('single') && empty($this->options->notice)): ?>
+<script src="https://v1.hitokoto.cn/?encode=js&select=%23hitokoto" defer></script>
+<?php endif; ?>
 <?php $this->footer(); ?>
 <div class="setting_tool iconfont">
 	<a class="back2top" style="display:none;"><i class="czs-arrow-up-l"></i></a>
@@ -93,7 +95,9 @@
 </div>
 <script data-no-instant>
     document.addEventListener('DOMContentLoaded', () => {
-        pangu.autoSpacingPage();
+        if (window.pangu && typeof pangu.autoSpacingPage === 'function') {
+            pangu.autoSpacingPage();
+        }
     });
 	    (function ($) {
 	        $.extend({

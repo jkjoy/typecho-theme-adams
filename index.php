@@ -4,7 +4,7 @@
  * 
  * @package Adams
  * @author  老孙博客
- * @version 1.1.4
+ * @version 1.1.5
  * @link    https://www.imsun.org
  */
 $this->need('header.php');
