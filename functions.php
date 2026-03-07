@@ -68,6 +68,37 @@ function themeConfig($form) {
 
 /* 工具 */
 /**
+ * 从 index.php 注释中提取主题版本号
+ */
+function adams_theme_version() {
+    static $version = null;
+
+    if ($version !== null) {
+        return $version;
+    }
+
+    $version = '1.0.0';
+    $indexFile = __DIR__ . '/index.php';
+
+    if (is_readable($indexFile)) {
+        $content = file_get_contents($indexFile);
+        if ($content !== false && preg_match('/@version\s+([^\s\*]+)/i', $content, $matches)) {
+            $version = trim($matches[1]);
+        }
+    }
+
+    return $version;
+}
+
+/**
+ * 生成带版本号的主题资源路径
+ */
+function adams_theme_asset($path) {
+    $separator = strpos($path, '?') === false ? '?' : '&';
+    return $path . $separator . 'v=' . rawurlencode(adams_theme_version());
+}
+
+/**
  * 输出 title
  */
 function title(Widget_Archive $archive)

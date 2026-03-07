@@ -58,10 +58,11 @@ echo $commentClass;
 	</li>
 <?php } ?>
     <!-- Comments -->
+    <?php if ($this->allow('comment')): ?>
+    <?php $this->comments()->to($comments); ?>
     <section class="comments">
         <div class="container" data-no-instant>
 		    <h3 id="comments" class="comments-title"><?php $this->commentsNum('无', '1 条', '%d 条'); ?>回应：“<?php $this->title(); ?>”</h3>
-            <?php $this->comments()->to($comments); ?>
             <?php if ($comments->have()): ?>
             <div class="commentlist"><?php $comments->listComments(); ?></div>
             <div class="navigation"><?php $comments->pageNav('&laquo; 前一页', '后一页 &raquo;'); ?></div>
@@ -98,9 +99,8 @@ echo $commentClass;
                         <input type='hidden' name='comment_parent' id='comment_parent' value='0' />
                     </p>
                 </form>
-				<?php else: ?>
-                <h3><?php _e('评论已关闭'); ?></h3>
                 <?php endif; ?>
             </div>
         </div>
     </section>
+    <?php endif; ?>

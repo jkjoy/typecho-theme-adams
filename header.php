@@ -9,16 +9,16 @@
     <?php else: ?>
     <link rel="icon" href="<?php $this->options->themeUrl('favicon.ico'); ?>" type="image/x-icon"/>
     <?php endif; ?>
-    <link href="<?php $this->options->themeUrl('style/style.css'); ?>" type="text/css" rel="stylesheet">
-    <link href="<?php $this->options->themeUrl('style/caomei/style.css'); ?>" type="text/css" rel="stylesheet">
-    <link id="adams-color-style" rel="stylesheet" <?php if ($this->options->colorStyle == 'sepia'): ?>href="<?php $this->options->themeUrl('style/sepia.css'); ?>"<?php elseif ($this->options->colorStyle == 'night'): ?>href="<?php $this->options->themeUrl('style/night.css'); ?>"<?php else: ?>href="" disabled<?php endif; ?> data-sepia="<?php $this->options->themeUrl('style/sepia.css'); ?>" data-night="<?php $this->options->themeUrl('style/night.css'); ?>">
-	<script src="<?php $this->options->themeUrl('static/jquery.min.js'); ?>"></script>
-	<script src="<?php $this->options->themeUrl('static/script.js'); ?>"></script>
-	<script src="<?php $this->options->themeUrl('static/support.js'); ?>"></script>
-	<script src="<?php $this->options->themeUrl('static/prettify.js'); ?>"></script>
-	<script src="<?php $this->options->themeUrl('static/instantclick.min.js'); ?>"></script>
+    <link href="<?php $this->options->themeUrl(adams_theme_asset('style/style.css')); ?>" type="text/css" rel="stylesheet">
+    <link href="<?php $this->options->themeUrl(adams_theme_asset('style/caomei/style.css')); ?>" type="text/css" rel="stylesheet">
+    <link id="adams-color-style" rel="stylesheet" <?php if ($this->options->colorStyle == 'sepia'): ?>href="<?php $this->options->themeUrl(adams_theme_asset('style/sepia.css')); ?>"<?php elseif ($this->options->colorStyle == 'night'): ?>href="<?php $this->options->themeUrl(adams_theme_asset('style/night.css')); ?>"<?php else: ?>href="" disabled<?php endif; ?> data-sepia="<?php $this->options->themeUrl(adams_theme_asset('style/sepia.css')); ?>" data-night="<?php $this->options->themeUrl(adams_theme_asset('style/night.css')); ?>">
+	<script src="<?php $this->options->themeUrl(adams_theme_asset('static/jquery.min.js')); ?>"></script>
+	<script src="<?php $this->options->themeUrl(adams_theme_asset('static/script.js')); ?>"></script>
+	<script src="<?php $this->options->themeUrl(adams_theme_asset('static/support.js')); ?>"></script>
+	<script src="<?php $this->options->themeUrl(adams_theme_asset('static/prettify.js')); ?>"></script>
+	<script src="<?php $this->options->themeUrl(adams_theme_asset('static/instantclick.min.js')); ?>"></script>
     <?php if ($this->options->pangu): ?>
-	<script src="<?php $this->options->themeUrl('static/pangu.min.js'); ?>"></script>
+	<script src="<?php $this->options->themeUrl(adams_theme_asset('static/pangu.min.js')); ?>"></script>
     <?php endif; ?>
     <title><?php title($this); ?></title>
     <?php $this->header(); ?>

@@ -4,14 +4,54 @@
         <ul id="menu-footer" class="menu">
         <?php
         try {
-            // 检查links表是否存在
             $db = Typecho_Db::get();
-            $db->fetchAll($db->select()->from('table.links')->limit(1));
-            // 如果没有异常，表存在，输出友情链接
-            Links_Plugin::output('<li><a href="{url}" target="_blank" rel="me noopener" title="{title}">{name}</a></li>');
+
+            try {
+                $sql = $db->select()->from('table.links')->where('state = ?', 1)->where('sort = ?', 'menu');
+
+                try {
+                    $sql = $sql->order('table.links.order', Typecho_Db::SORT_ASC);
+                    $links = $db->fetchAll($sql);
+                } catch (Exception $orderError) {
+                    $links = $db->fetchAll($db->select()->from('table.links')->where('state = ?', 1)->where('sort = ?', 'menu'));
+                }
+            } catch (Exception $stateError) {
+                $sql = $db->select()->from('table.links');
+
+                try {
+                    $sql = $sql->order('table.links.order', Typecho_Db::SORT_ASC);
+                    $links = $db->fetchAll($sql);
+                } catch (Exception $orderError) {
+                    $links = $db->fetchAll($db->select()->from('table.links'));
+                }
+            }
+
+            $hasLinks = false;
+            foreach ($links as $link) {
+                if (isset($link['state']) && (string) $link['state'] !== '1') {
+                    continue;
+                }
+                if (!isset($link['sort']) || strtolower(trim((string) $link['sort'])) !== 'menu') {
+                    continue;
+                }
+
+                $url = isset($link['url']) ? trim($link['url']) : '';
+                if ($url === '') {
+                    continue;
+                }
+
+                $hasLinks = true;
+                $name = isset($link['name']) && trim($link['name']) !== '' ? trim($link['name']) : '未命名站点';
+                $title = isset($link['description']) && trim($link['description']) !== '' ? trim($link['description']) : $name;
+
+                echo '<li><a href="' . htmlspecialchars($url, ENT_QUOTES, 'UTF-8') . '" target="_blank" rel="me noopener" title="' . htmlspecialchars($title, ENT_QUOTES, 'UTF-8') . '">' . htmlspecialchars($name, ENT_QUOTES, 'UTF-8') . '</a></li>';
+            }
+
+            if (!$hasLinks) {
+                echo '<span style="color: #999;">没有设置菜单</span>';
+            }
         } catch (Exception $e) {
-            // 表不存在或查询失败，显示提示信息
-            echo '<span style="color: #999;">请先安装links插件</span>';
+            echo '<span style="color: #999;">没有安装插件</span>';
         }
         ?>
         </ul>        
@@ -22,7 +62,7 @@
                 <a href="https://beian.miit.gov.cn/" target="_blank"><?php echo $this->options->icp; ?></a>
             <?php endif; ?>          
             </span>
-            <span class='right'>Theme by <a href="https://biji.io" target="_blank">Adams</a></span>
+            <span class='right'>Theme by <a href="https://biji.io" target="_blank" title="Adams v<?php echo htmlspecialchars(adams_theme_version(), ENT_QUOTES, 'UTF-8'); ?>">Adams</a></span>
 	</section>
 </footer>
 <?php if (!empty($this->options->footcode)): ?>

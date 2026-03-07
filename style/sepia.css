@@ -79,3 +79,56 @@ body,
 .related-posts .related_date{color:#a98c51;}
 .related-posts .related_name{color:#361e07;}
 .related-posts .related_link:hover{background:rgba(234,224,190,.95);box-shadow:0 0 0 1px rgba(112,66,20,.25) inset,0 10px 18px rgba(112,66,20,.12);}
+
+/* Code highlight */
+pre code{background:#f3eacb;box-shadow:0 0 0 1px rgba(169,140,81,.35) inset;color:#704214}
+code{background:#eae0be;color:#704214}
+ol.linenums{background:#e5d8af !important;color:#a98c51}
+li.L0,li.L1,li.L2,li.L3,li.L4,li.L5,li.L6,li.L7,li.L8,li.L9{background-color:#f3eacb}
+
+.post_article pre.code-mac,
+.comment-body pre.code-mac{background:#f3eacb;box-shadow:0 10px 24px rgba(112,66,20,.08),0 0 0 1px rgba(169,140,81,.35) inset}
+.post_article pre.code-mac .code-expand-btn,
+.comment-body pre.code-mac .code-expand-btn{border-top:1px solid rgba(169,140,81,.35);background:#e5d8af;color:#704214}
+.post_article pre.code-mac .code-expand-btn:hover,
+.comment-body pre.code-mac .code-expand-btn:hover{background:#dccb9a;color:#361e07}
+.post_article pre.code-mac:before,
+.comment-body pre.code-mac:before{background:#e5d8af;border-bottom:1px solid rgba(169,140,81,.35)}
+.post_article pre.code-mac .code-copy-btn,
+.comment-body pre.code-mac .code-copy-btn{background:rgba(112,66,20,.10);color:#704214}
+.post_article pre.code-mac .code-copy-btn:hover,
+.comment-body pre.code-mac .code-copy-btn:hover{background:rgba(112,66,20,.18);color:#361e07}
+.post_article pre.code-mac code,
+.comment-body pre.code-mac code{color:#704214}
+.post_article pre.code-mac ol.linenums,
+.comment-body pre.code-mac ol.linenums{color:#a98c51}
+.post_article pre.code-mac .pln,
+.comment-body pre.code-mac .pln{color:#704214}
+.post_article pre.code-mac .str,
+.comment-body pre.code-mac .str{color:#b65a3c}
+.post_article pre.code-mac .kwd,
+.comment-body pre.code-mac .kwd{color:#8a5a00}
+.post_article pre.code-mac .com,
+.comment-body pre.code-mac .com{color:#a98c51}
+.post_article pre.code-mac .typ,
+.comment-body pre.code-mac .typ{color:#8a5a00}
+.post_article pre.code-mac .lit,
+.comment-body pre.code-mac .lit{color:#8c6bb1}
+.post_article pre.code-mac .pun,
+.post_article pre.code-mac .opn,
+.post_article pre.code-mac .clo,
+.comment-body pre.code-mac .pun,
+.comment-body pre.code-mac .opn,
+.comment-body pre.code-mac .clo{color:#704214}
+.post_article pre.code-mac .tag,
+.comment-body pre.code-mac .tag{color:#b2463f}
+.post_article pre.code-mac .atn,
+.comment-body pre.code-mac .atn{color:#7a8b36}
+.post_article pre.code-mac .atv,
+.comment-body pre.code-mac .atv{color:#b65a3c}
+.post_article pre.code-mac .dec,
+.comment-body pre.code-mac .dec{color:#8c6bb1}
+.post_article pre.code-mac .var,
+.post_article pre.code-mac .fun,
+.comment-body pre.code-mac .var,
+.comment-body pre.code-mac .fun{color:#704214}

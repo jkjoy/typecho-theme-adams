@@ -3,9 +3,9 @@
  * Theme Adams | 一款移植自 Wordpress 的简洁主题
  * 
  * @package Adams
- * @author  vsc.im
- * @version 1.1.3
- * @link    https://blog.vsc.im
+ * @author  老孙博客
+ * @version 1.1.4
+ * @link    https://www.imsun.org
  */
 $this->need('header.php');
 ?>
